@@ -1,4 +1,5 @@
 import { Database } from "bun:sqlite";
+import type { Kind, Item } from "./types";
 
 export function initializeItemTable(db: Database) {
   const queryString = `CREATE TABLE IF NOT EXISTS item (
@@ -10,10 +11,14 @@ export function initializeItemTable(db: Database) {
   query.run();
 }
 
-type Kind = "memo" | "todo" | "done";
-
 export function createItem(db: Database, content: string, kind: Kind) {
   const queryString = `INSERT INTO item (content, kind) VALUES (?, ?)`;
   const query = db.query(queryString);
   query.run(content, kind);
+}
+
+export function getItems(db: Database): Item[] {
+  const queryString = `SELECT * FROM item`;
+  const query = db.query(queryString);
+  return query.all() as Item[];
 }
