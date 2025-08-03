@@ -1,5 +1,6 @@
 import { Database } from "bun:sqlite";
 import { initializeItemTable, createItem, getItems } from "./db";
+import { formatToItem } from "./format";
 
 const db = new Database("sqlite.db");
 
@@ -28,7 +29,7 @@ if (Bun.argv.length === 4) {
 } else if (Bun.argv.length === 2) {
   const items = getItems(db);
   items.forEach((item) => {
-    console.log(item.content);
+    console.log(formatToItem(item));
   });
 } else {
   throw new Error("追加のコマンドライン引数の数が多すぎます");
