@@ -1,5 +1,10 @@
 import { Database } from "bun:sqlite";
-import { initializeItemTable, createItem, getItems } from "./db";
+import {
+  initializeItemTable,
+  createItem,
+  getItems,
+  updateTodoToDone,
+} from "./db";
 import { formatToItem } from "./format";
 
 const db = new Database("sqlite.db");
@@ -19,7 +24,7 @@ if (Bun.argv.length === 4) {
       createItem(db, content, "todo");
       break;
     case "done":
-      // TODO: doneの処理
+      updateTodoToDone(db, content);
       break;
     default:
       throw new Error("不正なコマンドです");
