@@ -1,8 +1,11 @@
-export function add(a: number, b: number): number {
-  return a + b;
+async function handler() {
+  const html = await Deno.readTextFile("./index.html");
+  const response = new Response(html, {
+    headers: {
+      "Content-Type": "text/html;charset=utf-8",
+    },
+  });
+  return response;
 }
 
-// Learn more at https://docs.deno.com/runtime/manual/examples/module_metadata#concepts
-if (import.meta.main) {
-  console.log("Add 2 + 3 =", add(2, 3));
-}
+Deno.serve(handler);
